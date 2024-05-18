@@ -1,8 +1,8 @@
 from selenium import webdriver
 import time
 
-# install selenium https://pypi.org/project/selenium/
-# install chrome driver https://chromedriver.chromium.org/downloads
+# Install selenium https://pypi.org/project/selenium/
+# Install chrome driver https://chromedriver.chromium.org/downloads
 
 browser = webdriver.Chrome()
 

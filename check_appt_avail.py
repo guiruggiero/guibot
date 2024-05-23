@@ -1,7 +1,5 @@
 # TODO
-# implement timed run
-# implement communication - email, Twitter?
-# test with headless Chrome
+# implement communication - email, Twitter
 # test with some other appointment to see if it works
 # test Lambda
 
@@ -19,6 +17,8 @@ def check_for_appt():
     # Initialize Selenium browser
     options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
     # options.add_argument("--headless=new")
+    # options.add_argument("--window-size=1920,1080")
+    # options.add_argument("--start-maximized")
     options.add_argument("--disable-extensions")
     options.add_argument("--disable-default-apps")
     options.add_argument("--disable-gpu")
@@ -110,10 +110,11 @@ def check_for_appt():
     # Closing the browser
     browser.close()
 
-# check_for_appt()
-# schedule.every(25).seconds.do(check_for_appt)
-schedule.every(30).minutes.do(check_for_appt)
+check_for_appt()
 
-while True:
-    schedule.run_pending()
-    sleep(1)
+# # Timed run
+# # schedule.every(25).seconds.do(check_for_appt)
+# schedule.every(30).minutes.do(check_for_appt)
+# while True:
+#     schedule.run_pending()
+#     sleep(1)

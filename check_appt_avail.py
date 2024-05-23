@@ -1,5 +1,9 @@
 # TODO
-# test with some other appointment to see if it works
+# make it work with headless Chrome
+#   AND deploy to AWS Lambda or Google Cloud Functions
+# OR
+#   create a Linux instance with GUI and run it there
+#     (does it keep running when RDP/VNC connection is not active?)
 
 import time
 import schedule
@@ -31,27 +35,27 @@ def check_for_appt():
 
     # Start page, direct link of https://termine.staedteregion-aachen.de/auslaenderamt/ + Aufenthaltsangelegenheiten (first option)
     browser.get("https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1")
-    # print("Page opened\n")
+    # print("Page opened")
     time.sleep(3)
 
     # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
     accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
-    # print("Clicked accordion\n")
+    # print("Clicked accordion")
     time.sleep(2)
     button_plus = browser.find_element(By.ID, "button-plus-268").click()
-    # print("Clicked plus button\n")
+    # print("Clicked plus button")
     time.sleep(1)
 
     # Move to the next page
     button_next = browser.find_element(By.ID, "WeiterButton")
     ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
-    # print("Scrolled down\n")
+    # print("Scrolled down")
     time.sleep(2)
     button_next.click()
-    # print("Clicked next button\n")
+    # print("Clicked next button")
     time.sleep(2)
     button_ok_overlay = browser.find_element(By.ID, "OKButton").click()
-    # print("Clicked OK button\n")
+    # print("Clicked OK button")
     time.sleep(3)
 
     # # Save HTML before selecting the office to see if "Kein freier Termin" is already there
@@ -95,43 +99,42 @@ def check_for_appt():
     source = browser.page_source
     search = source.find("Kein freier Termin")
     # print(search)
-    if search != -1: # No appointments available
-        # print("No appointments available :-(\n")
-        email["Subject"] = "EU Blue Card appointment check - " + check_start_time
-        recipients = [gmail.GUI]
-        email.set_content("Unfortunately, there are no appointments available.", subtype="html")
+    if search != -1: # Found string somewhere, no appointments available
+        print("No appointments available :-(\n")
+        # email["Subject"] = "EU Blue Card appointment check - " + check_start_time
+        # recipients = [gmail.GUI]
+        # email.set_content("Unfortunately, there are no appointments available.", subtype="html")
     else: # Appointment(s) available
-        # print("Appointment(s) available!\n")
+        print("Appointment(s) available!")
         email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
         recipients = [gmail.GUI, gmail.GEORGIA]
         email.set_content("It looks like there are appointments available!<br><br>"
             "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
+        
+        # Start the connection
+        smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        smtpserver.ehlo()
+        smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+
+        # Create mail
+        email["From"] = "Gui's bot <" + gmail.SENDER + ">"
+        email["To"] = recipients
+
+        # Send email
+        smtpserver.send_message(email)
+
+        # Close the connection
+        smtpserver.quit()
+        print("Email sent\n")
 
     # Close the browser
     browser.close()
-    print("Check done")
-
-    # Start the connection
-    smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    smtpserver.ehlo()
-    smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
-
-    # Create mail
-    email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-    email["To"] = recipients
-
-    # Send email
-    smtpserver.send_message(email)
-
-    # Close the connection
-    smtpserver.quit()
-    print("Email sent\n")
 
 # check_for_appt()
 
 # Timed run
-# schedule.every(25).seconds.do(check_for_appt)
-schedule.every(30).minutes.do(check_for_appt)
+print("Program started\n")
+schedule.every(1).minutes.do(check_for_appt)
 while True:
     schedule.run_pending()
     time.sleep(1)

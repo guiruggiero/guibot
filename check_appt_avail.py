@@ -1,7 +1,5 @@
 # TODO
-# implement communication - email, Twitter
 # test with some other appointment to see if it works
-# test Lambda
 
 from time import sleep
 import schedule
@@ -9,9 +7,6 @@ import schedule
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
-
-# import smtplib # pip install smtplib
-# from email.message import EmailMessage
 
 def check_for_appt():
     # Initialize Selenium browser
@@ -84,28 +79,16 @@ def check_for_appt():
     # html_after_office.close()
     # print("Saved HTML after office selection\n")
 
-    # # Prepare email
-    # msg = EmailMessage()
-    # msg["From"] = "guilherme.ruggiero@gmail.com"
-    # msg["To"] = "guilherme.ruggiero@gmail.com"
-
     # Check if "Kein freier Termin" is in the page
     source = browser.page_source
     search = source.find("Kein freier Termin")
     # print(search)
     if search != -1:
         print("No appointments available :-(\n")
-        # msg["Subject"] = "Appointment check done, none available"
         # TODO: # send message, email, tweet... some form of communication
     else:
         print("Appointment(s) available!\n")
-        # msg["Subject"] = "URGENT - appointments available!"
         # TODO: # send message, email, tweet... some form of communication
-
-    # # Send email
-    # s = smtplib.SMTP("localhost")
-    # s.send_message(msg)
-    # s.quit()
 
     # Closing the browser
     browser.close()

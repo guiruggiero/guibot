@@ -4,9 +4,9 @@ import sys
 sys.path.insert(1, "../secrets")
 import gmail
 
-# print(gmail.SENDER)
-# print(gmail.GMAIL_APP_PASSWORD)
-# print(gmail.GUI)
+print(gmail.SENDER)
+print(gmail.GMAIL_APP_PASSWORD)
+print(gmail.GUI)
 
 import smtplib
 
@@ -24,9 +24,9 @@ smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
 # Create mail
 email = EmailMessage()
 email["From"] = gmail.SENDER
-# email["To"] = gmail.GUI
-recipients = [gmail.GUI, gmail.GEORGIA]
-email["To"] = recipients
+email["To"] = gmail.GUI
+# recipients = [gmail.GUI, gmail.GEORGIA]
+# email["To"] = recipients
 email["Subject"] = "Test"
 email.set_content("Testing", subtype="html")
 

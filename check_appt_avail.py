@@ -1,12 +1,5 @@
-# TODO
-# make it work with headless Chrome
-#   AND deploy to AWS Lambda or Google Cloud Functions
-# OR
-#   create a Linux instance with GUI and run it there
-#     (does it keep running when RDP/VNC connection is not active?)
-
 import time
-import schedule
+import schedule # https://schedule.readthedocs.io/en/stable/installation.html
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -25,7 +18,6 @@ def check_for_appt():
     # Initialize Selenium browser
     options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
     # options.add_argument("--headless=new")
-    # options.add_argument("--window-size=1920,1080")
     # options.add_argument("--start-maximized")
     options.add_argument("--disable-extensions")
     options.add_argument("--disable-default-apps")
@@ -134,7 +126,7 @@ def check_for_appt():
 
 # Timed run
 print("Program started\n")
-schedule.every(1).minutes.do(check_for_appt)
+schedule.every(5).minutes.do(check_for_appt)
 while True:
     schedule.run_pending()
     time.sleep(1)

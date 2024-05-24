@@ -14,7 +14,7 @@ import gmail
 def check_for_appt():
     check_start_time = time.strftime("%H:%M", time.localtime())
     print("Starting check - " + check_start_time)
-    
+
     # Initialize Selenium browser
     options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
     # options.add_argument("--headless=new")
@@ -74,7 +74,7 @@ def check_for_appt():
 
         if button.aria_role == "button":
             button.click()
-            # print("Clicked office button\n")
+            # print("Clicked office button")
             time.sleep(3)
 
     # # Save HTML after selecting the office to compare with before
@@ -102,7 +102,7 @@ def check_for_appt():
         recipients = [gmail.GUI, gmail.GEORGIA]
         email.set_content("It looks like there are appointments available!<br><br>"
             "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
-        
+
         # Start the connection
         smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         smtpserver.ehlo()

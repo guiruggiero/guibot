@@ -1,5 +1,5 @@
 import time
-import schedule
+import schedule # https://schedule.readthedocs.io/en/stable/installation.html
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -12,8 +12,11 @@ sys.path.insert(1, "../secrets")
 import gmail
 
 def check_for_appt():
-    check_start_time =  time.strftime("%H:%M", time.localtime()) # TODO att 2 hours
-    print("Starting check - " + check_start_time)
+    check_start_hour =  int(time.strftime("%H", time.localtime()))
+    check_start_hour_int = int(check_start_hour) + 2
+    check_start_hour = str(check_start_hour_int)
+    check_start_minute = time.strftime("%M", time.localtime())
+    print("Starting check - " + check_start_hour + ":" + check_start_minute)
 
     # Initialize Selenium browser
     options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -34,7 +37,7 @@ def check_for_appt():
     accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
     # print("Clicked accordion")
     time.sleep(2)
-    ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls all the way down
+    ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
     # print("Scrolled down")
     time.sleep(2)
     button_plus = browser.find_element(By.ID, "button-plus-268").click()
@@ -80,7 +83,7 @@ def check_for_appt():
 
         if button.aria_role == "button":
             button.click()
-           #  print("Clicked office button")
+            # print("Clicked office button")
             time.sleep(3)
 
     # # Save HTML after selecting the office to compare with before
@@ -134,5 +137,5 @@ def check_for_appt():
 print("Program started\n")
 schedule.every(5).minutes.do(check_for_appt)
 while True:
-   schedule.run_pending()
-   time.sleep(1)
+    schedule.run_pending()
+    time.sleep(1)

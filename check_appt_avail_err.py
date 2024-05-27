@@ -39,6 +39,10 @@ def check_for_appt():
         # print("Clicked plus button")
         time.sleep(1)
 
+        # Exception tests
+        # raise KeyboardInterrupt
+        # raise Exception
+
         # Move to the next page
         button_next = browser.find_element(By.ID, "WeiterButton")
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
@@ -85,22 +89,21 @@ def check_for_appt():
         # html_after_office.close()
         # print("Saved HTML after office selection\n")
 
-        # Instantiate email
-        email = EmailMessage()
-
         # Check if "Kein freier Termin" is in the page
         source = browser.page_source
         search = source.find("Kein freier Termin")
         # print(search)
         if search != -1: # Found string somewhere, no appointments available
             print("No appointments available :-(\n")
-            # email["Subject"] = "EU Blue Card appointment check - " + check_start_time
-            # recipients = [gmail.GUI]
-            # email.set_content("Unfortunately, there are no appointments available.", subtype="html")
+
         else: # Appointment(s) available
             print("Appointment(s) available!")
+
+            # Create mail
+            email = EmailMessage()
+            email["From"] = "Gui's bot <" + gmail.SENDER + ">"
+            email["To"] = [gmail.GUI, gmail.GEORGIA]
             email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
-            recipients = [gmail.GUI, gmail.GEORGIA]
             email.set_content("It looks like there are appointments available!<br><br>"
                 "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
 
@@ -108,10 +111,6 @@ def check_for_appt():
             smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
             smtpserver.ehlo()
             smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
-
-            # Create mail
-            email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-            email["To"] = recipients
 
             # Send email
             smtpserver.send_message(email)
@@ -130,8 +129,11 @@ def check_for_appt():
 
     # All other errors
     except:
+        # Create email
+        email = EmailMessage()
+        email["From"] = "Gui's bot <" + gmail.SENDER + ">"
+        email["To"] = [gmail.GUI]
         email["Subject"] = "Script error"
-        recipients = [gmail.GUI]
         email.set_content("Check up on the instance, the script is having problems.", subtype="html")
 
         # Start the connection
@@ -139,16 +141,12 @@ def check_for_appt():
         smtpserver.ehlo()
         smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
 
-        # Create mail
-        email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-        email["To"] = recipients
-
         # Send email
         smtpserver.send_message(email)
 
         # Close the connection
         smtpserver.quit()
-        print("\n\n Error warning email sent\n")
+        print("\nError warning email sent\n")
         exit()
 
 # check_for_appt()

@@ -44,7 +44,10 @@ def check_for_appt():
         button_plus = browser.find_element(By.ID, "button-plus-268").click()
         # print("Clicked plus button")
         time.sleep(1)
-
+        button_plus = browser.find_element(By.ID, "button-plus-268").click()
+        # print("Clicked plus button")
+        time.sleep(1)
+        
         # Move to the next page
         button_next = browser.find_element(By.ID, "WeiterButton")
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down

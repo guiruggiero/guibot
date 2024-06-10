@@ -38,7 +38,10 @@ def check_for_appt():
         button_plus = browser.find_element(By.ID, "button-plus-268").click()
         # print("Clicked plus button")
         time.sleep(1)
-
+        button_plus = browser.find_element(By.ID, "button-plus-268").click()
+        # print("Clicked plus button")
+        time.sleep(1)
+        
         # Exception tests
         # raise KeyboardInterrupt
         # raise Exception

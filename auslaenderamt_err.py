@@ -14,7 +14,7 @@ import gmail
 def check_for_appt():
     try:
         check_start_time = time.strftime("%H:%M", time.localtime())
-        print("Starting check - " + check_start_time)
+        print("Starting Auslaenderamt check - " + check_start_time)
 
         # Initialize Selenium browser
         options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -35,6 +35,7 @@ def check_for_appt():
         accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
         # print("Clicked accordion")
         time.sleep(2)
+        ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
         button_plus = browser.find_element(By.ID, "button-plus-268").click()
         # print("Clicked plus button")
         time.sleep(1)
@@ -71,6 +72,9 @@ def check_for_appt():
         # print(search_before)
 
         # Select the office
+        ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+        # print("Scrolled down")
+        time.sleep(2)
         office_buttons = browser.find_elements(By.NAME, "select_location")
         # Find the right button to press
         for button in office_buttons:
@@ -154,10 +158,10 @@ def check_for_appt():
 
 # check_for_appt()
 
-# Timed run
-print("Program started\n")
-check_for_appt()
-schedule.every(5).minutes.do(check_for_appt)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# # Timed run
+# print("Program started\n")
+# check_for_appt()
+# schedule.every(5).minutes.do(check_for_appt)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

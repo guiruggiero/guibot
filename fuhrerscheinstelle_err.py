@@ -14,7 +14,7 @@ import gmail
 def check_for_appt():
     try:
         check_start_time = time.strftime("%H:%M", time.localtime())
-        print("Starting check - " + check_start_time)
+        print("Starting Fuhrerscheinstelle check - " + check_start_time)
 
         # Initialize Selenium browser
         options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -186,10 +186,10 @@ def check_for_appt():
 
 # check_for_appt()
 
-# Timed run
-print("Program started\n")
-check_for_appt()
-schedule.every(5).minutes.do(check_for_appt)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# # Timed run
+# print("Program started\n")
+# check_for_appt()
+# schedule.every(5).minutes.do(check_for_appt)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

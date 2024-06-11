@@ -12,8 +12,11 @@ sys.path.insert(1, "../secrets")
 import gmail
 
 def check_for_appt():
-    check_start_time = time.strftime("%H:%M", time.localtime())
-    print("Starting check - " + check_start_time)
+    check_start_hour =  int(time.strftime("%H", time.localtime()))
+    check_start_hour_int = int(check_start_hour) + 2
+    check_start_hour = str(check_start_hour_int)
+    check_start_minute = time.strftime("%M", time.localtime())
+    print("Starting check - " + check_start_hour + ":" + check_start_minute)
 
     # Initialize Selenium browser
     options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -33,6 +36,9 @@ def check_for_appt():
     # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
     accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
     # print("Clicked accordion")
+    time.sleep(2)
+    ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
+    # print("Scrolled down")
     time.sleep(2)
     button_plus = browser.find_element(By.ID, "button-plus-268").click()
     # print("Clicked plus button")
@@ -63,14 +69,17 @@ def check_for_appt():
     # print(search_before)
 
     # Select the office
+    ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+    # print("Scrolled down")
+    time.sleep(2)
     office_buttons = browser.find_elements(By.NAME, "select_location")
     # Find the right button to press
     for button in office_buttons:
-        # print(i.accessible_name)
+        # print(button.accessible_name)
         # print(button.aria_role)
-        # print(i.parent)
-        # print(i.tag_name)
-        # print(i.id)
+        # print(button.parent)
+        # print(button.tag_name)
+        # print(button.id)
 
         if button.aria_role == "button":
             button.click()

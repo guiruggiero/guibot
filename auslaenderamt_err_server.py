@@ -79,11 +79,11 @@ def check_for_appt():
         office_buttons = browser.find_elements(By.NAME, "select_location")
         # Find the right button to press
         for button in office_buttons:
-            # print(i.accessible_name)
+            # print(button.accessible_name)
             # print(button.aria_role)
-            # print(i.parent)
-            # print(i.tag_name)
-            # print(i.id)
+            # print(button.parent)
+            # print(button.tag_name)
+            # print(button.id)
 
             if button.aria_role == "button":
                 button.click()

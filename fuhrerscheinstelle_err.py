@@ -101,26 +101,26 @@ def check_for_appt():
 
         else: # Appointment(s) available
             # Filter for interesting dates # TODO starts
-            accordion = browser.find_element(By.ID, "ui-id-1").click()
-            ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
-            to_date = browser.find_element(By.ID, "filter_date_to") # setAttribute("value", "18.06.2024")
-            print(to_date)
+            # accordion = browser.find_element(By.ID, "ui-id-1").click()
+            # ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+            # to_date = browser.find_element(By.ID, "filter_date_to") # setAttribute("value", "18.06.2024")
+            # print(to_date)
 
-            # print("To date changed")
-            filter_buttons = browser.find_elements(By.NAME, "select_location")
-            # Find the right button to press
-            for button in filter_buttons:
-                print(button.accessible_name)
-                print(button.aria_role)
-                print(button.parent)
-                print(button.tag_name)
-                print(button.id)
-                print("\n")
+            # # print("To date changed")
+            # filter_buttons = browser.find_elements(By.NAME, "select_location")
+            # # Find the right button to press
+            # for button in filter_buttons:
+            #     print(button.accessible_name)
+            #     print(button.aria_role)
+            #     print(button.parent)
+            #     print(button.tag_name)
+            #     print(button.id)
+            #     print("\n")
 
-                # if button.aria_role == "button":
-                #     button.click()
-                #     print("Clicked office button")
-                #     time.sleep(3)
+            #     # if button.aria_role == "button":
+            #     #     button.click()
+            #     #     print("Clicked office button")
+            #     #     time.sleep(3)
 
             # TODO ends
 
@@ -162,7 +162,7 @@ def check_for_appt():
         print("\n\nAlright, done for now")
         exit()
 
-    All other errors
+    # All other errors
     except:
         # Create email
         email = EmailMessage()

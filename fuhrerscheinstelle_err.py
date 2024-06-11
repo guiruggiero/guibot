@@ -32,10 +32,11 @@ def check_for_appt():
         time.sleep(3)
 
         # Click "+" in the right category
-        accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click() # TODO
+        ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+        accordion = browser.find_element(By.ID, "header_concerns_accordion-7252").click()
         # print("Clicked accordion")
         time.sleep(2)
-        button_plus = browser.find_element(By.ID, "button-plus-268").click() # TODO
+        button_plus = browser.find_element(By.ID, "button-plus-823").click()
         # print("Clicked plus button")
         time.sleep(1)
 
@@ -44,14 +45,14 @@ def check_for_appt():
         # raise Exception
 
         # Move to the next page
-        button_next = browser.find_element(By.ID, "WeiterButton") # TODO
+        button_next = browser.find_element(By.ID, "WeiterButton")
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # print("Scrolled down")
         time.sleep(2)
         button_next.click()
         # print("Clicked next button")
         time.sleep(2)
-        button_ok_overlay = browser.find_element(By.ID, "OKButton").click() # TODO
+        button_ok_overlay = browser.find_element(By.ID, "OKButton").click()
         # print("Clicked OK button")
         time.sleep(3)
 
@@ -68,14 +69,16 @@ def check_for_appt():
         # print(search_before)
 
         # Select the office
-        office_buttons = browser.find_elements(By.NAME, "select_location") # TODO
+        office_buttons = browser.find_elements(By.NAME, "select_location")
+        ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # Find the right button to press
         for button in office_buttons:
-            # print(i.accessible_name)
+            # print(button.accessible_name)
             # print(button.aria_role)
-            # print(i.parent)
-            # print(i.tag_name)
-            # print(i.id)
+            # print(button.parent)
+            # print(button.tag_name)
+            # print(button.id)
+            # print("\n")
 
             if button.aria_role == "button":
                 button.click()
@@ -97,27 +100,59 @@ def check_for_appt():
             print("No appointments available :-(\n")
 
         else: # Appointment(s) available
-            print("Appointment(s) available!")
+            # Filter for interesting dates # TODO starts
+            accordion = browser.find_element(By.ID, "ui-id-1").click()
+            ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+            to_date = browser.find_element(By.ID, "filter_date_to") # setAttribute("value", "18.06.2024")
+            print(to_date)
 
-            # Create mail
-            email = EmailMessage()
-            email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-            email["To"] = [gmail.GUI]
-            email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
-            email.set_content("It looks like there are appointments available!<br><br>"
-                "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
+            # print("To date changed")
+            filter_buttons = browser.find_elements(By.NAME, "select_location")
+            # Find the right button to press
+            for button in filter_buttons:
+                print(button.accessible_name)
+                print(button.aria_role)
+                print(button.parent)
+                print(button.tag_name)
+                print(button.id)
+                print("\n")
 
-            # Start the connection
-            smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            smtpserver.ehlo()
-            smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+                # if button.aria_role == "button":
+                #     button.click()
+                #     print("Clicked office button")
+                #     time.sleep(3)
 
-            # Send email
-            smtpserver.send_message(email)
+            # TODO ends
 
-            # Close the connection
-            smtpserver.quit()
-            print("Email sent\n")
+            # Check if "Kein freier Termin" is in the page
+            source = browser.page_source
+            search = source.find("Kein freier Termin")
+            # print(search)
+            if search != -1: # Found string somewhere, no appointments available
+                print("No appointments available :-(\n")
+
+            else: # Appointment(s) available
+                print("Appointment(s) available!")
+
+                # Create mail
+                email = EmailMessage()
+                email["From"] = "Gui's bot <" + gmail.SENDER + ">"
+                email["To"] = [gmail.GUI]
+                email["Subject"] = "Urgent - Driver's license appointment(s) available - "
+                email.set_content("It looks like there are appointments available!<br><br>"
+                    "Go to https://termine.staedteregion-aachen.de/select2?md=2 and grab one ASAP.", subtype="html")
+
+                # Start the connection
+                smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                smtpserver.ehlo()
+                smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+
+                # Send email
+                smtpserver.send_message(email)
+
+                # Close the connection
+                smtpserver.quit()
+                print("Email sent\n")
 
         # Close the browser
         browser.close()
@@ -127,14 +162,14 @@ def check_for_appt():
         print("\n\nAlright, done for now")
         exit()
 
-    # All other errors
+    All other errors
     except:
         # Create email
         email = EmailMessage()
         email["From"] = "Gui's bot <" + gmail.SENDER + ">"
         email["To"] = [gmail.GUI]
         email["Subject"] = "Script error"
-        email.set_content("Check up on the instance, the script is having problems.", subtype="html")
+        email.set_content("The script is having problems, go check it.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)

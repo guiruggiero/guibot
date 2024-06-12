@@ -162,7 +162,7 @@ def check_for_appt():
 # Timed run
 print("Program started\n")
 check_for_appt()
-schedule.every(5).minutes.do(check_for_appt)
+schedule.every(2).minutes.do(check_for_appt)
 while True:
     schedule.run_pending()
     time.sleep(1)

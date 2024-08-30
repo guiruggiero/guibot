@@ -32,16 +32,16 @@ def check_for_appt():
         time.sleep(3)
 
         # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
-        accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
+        accordion = browser.find_element(By.ID, "header_concerns_accordion-456").click()
         # print("Clicked accordion")
         time.sleep(2)
-        ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
-        button_plus = browser.find_element(By.ID, "button-plus-268").click()
+        # ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
+        button_plus = browser.find_element(By.ID, "button-plus-297").click()
         # print("Clicked plus button")
         time.sleep(1)
-        button_plus = browser.find_element(By.ID, "button-plus-268").click()
-        # print("Clicked plus button")
-        time.sleep(1)
+        # button_plus = browser.find_element(By.ID, "button-plus-297").click()
+        # print("Clicked plus button twice")
+        # time.sleep(1)
         
         # Exception tests
         # raise KeyboardInterrupt
@@ -72,9 +72,9 @@ def check_for_appt():
         # print(search_before)
 
         # Select the office
-        ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
+        # ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # print("Scrolled down")
-        time.sleep(2)
+        # time.sleep(2)
         office_buttons = browser.find_elements(By.NAME, "select_location")
         # Find the right button to press
         for button in office_buttons:
@@ -129,7 +129,7 @@ def check_for_appt():
         # Close the browser
         browser.close()
 
-    # Ctrl+C interruption error
+    # Ctrl+C interruption
     except KeyboardInterrupt:
         print("\n\nAlright, done for now")
         exit()
@@ -141,7 +141,7 @@ def check_for_appt():
         email["From"] = "Gui's bot <" + gmail.SENDER + ">"
         email["To"] = [gmail.GUI]
         email["Subject"] = "Script error"
-        email.set_content("Check up on the instance, the script is having problems.", subtype="html")
+        email.set_content("Check up on the script, it's having problems.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -158,10 +158,10 @@ def check_for_appt():
 
 # check_for_appt()
 
-# # Timed run
-# print("Program started\n")
-# check_for_appt()
-# schedule.every(5).minutes.do(check_for_appt)
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+# Timed run
+print("Program started\n")
+check_for_appt()
+schedule.every(2).minutes.do(check_for_appt)
+while True:
+    schedule.run_pending()
+    time.sleep(1)

@@ -112,7 +112,8 @@ def check_for_appt():
             email["To"] = [gmail.GUI, gmail.GEORGIA]
             email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
             email.set_content("It looks like there are appointments available!<br><br>"
-                "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
+                "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1, "
+                "select Aufenthalt (2nd category), Team 3 (3rd line), and 2 appointments (plus button).", subtype="html")
 
             # Start the connection
             smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -141,7 +142,7 @@ def check_for_appt():
         email["From"] = "Gui's bot <" + gmail.SENDER + ">"
         email["To"] = [gmail.GUI]
         email["Subject"] = "Script error"
-        email.set_content("Check up on the script, it's having problems.", subtype="html")
+        email.set_content("Check the script, it's having problems.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)

@@ -11,6 +11,8 @@ import sys
 sys.path.insert(1, "../secrets")
 import gmail
 
+import random
+
 def check_for_appt():
     try:
         check_start_hour =  int(time.strftime("%H", time.localtime()))
@@ -18,6 +20,10 @@ def check_for_appt():
         check_start_hour = str(check_start_hour_int)
         check_start_minute = time.strftime("%M", time.localtime())
         print("Starting check - " + check_start_hour + ":" + check_start_minute)
+
+        # Decide which team to check
+        teams = [1, 2, 3]
+        team = random.choice(teams)
 
         # Initialize Selenium browser
         options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -35,18 +41,39 @@ def check_for_appt():
         time.sleep(3)
 
         # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
-        accordion = browser.find_element(By.ID, "header_concerns_accordion-340").click()
+        accordion = browser.find_element(By.ID, "header_concerns_accordion-456").click()
         # print("Clicked accordion")
         time.sleep(2)
         ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
         # print("Scrolled down")
         time.sleep(2)
-        button_plus = browser.find_element(By.ID, "button-plus-268").click()
-        # print("Clicked plus button")
-        time.sleep(1)
-        button_plus = browser.find_element(By.ID, "button-plus-268").click()
-        # print("Clicked plus button")
-        time.sleep(1)
+
+        if team == 1: # Team 1
+            print("Team 1")
+            button_plus = browser.find_element(By.ID, "button-plus-293").click()
+            # print("Clicked plus button")
+            time.sleep(1)
+            button_plus = browser.find_element(By.ID, "button-plus-293").click()
+            # print("Clicked plus button twice")
+            time.sleep(1)
+            
+        elif team == 2: # Team 2
+            print("Team 2")
+            button_plus = browser.find_element(By.ID, "button-plus-296").click()
+            # print("Clicked plus button")
+            time.sleep(1)
+            button_plus = browser.find_element(By.ID, "button-plus-296").click()
+            # print("Clicked plus button twice")
+            time.sleep(1)
+
+        elif team == 3: # Team 3
+            print("Team 3")
+            button_plus = browser.find_element(By.ID, "button-plus-297").click()
+            # print("Clicked plus button")
+            time.sleep(1)
+            button_plus = browser.find_element(By.ID, "button-plus-297").click()
+            # print("Clicked plus button twice")
+            time.sleep(1)
         
         # Move to the next page
         button_next = browser.find_element(By.ID, "WeiterButton")
@@ -113,7 +140,8 @@ def check_for_appt():
             email["To"] = [gmail.GUI, gmail.GEORGIA]
             email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
             email.set_content("It looks like there are appointments available!<br><br>"
-                "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1 and grab one ASAP.", subtype="html")
+                "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1, "
+                "select Aufenthalt (2nd category), Team " + str(team) + ", and 2 appointments (plus button).", subtype="html")
 
             # Start the connection
             smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -162,7 +190,9 @@ def check_for_appt():
 # Timed run
 print("Program started\n")
 check_for_appt()
-schedule.every(2).minutes.do(check_for_appt)
+
+# schedule.every(2).minutes.do(check_for_appt)
+schedule.every(20).seconds.do(check_for_appt)
 while True:
     schedule.run_pending()
     time.sleep(1)

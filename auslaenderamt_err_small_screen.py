@@ -182,7 +182,9 @@ def check_for_appt():
 
         # Close the connection
         smtpserver.quit()
+
         print("\nError warning email sent\n")
+        print(type(error).__name__, "–", error)
         exit()
 
 # check_for_appt()

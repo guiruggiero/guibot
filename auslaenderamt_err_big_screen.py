@@ -163,7 +163,7 @@ def check_for_appt():
         exit()
 
     # All other errors
-    except:
+    except Exception as error:
         # Create email
         email = EmailMessage()
         email["From"] = "Gui's bot <" + gmail.SENDER + ">"
@@ -181,7 +181,9 @@ def check_for_appt():
 
         # Close the connection
         smtpserver.quit()
+
         print("\nError warning email sent\n")
+        print(type(error).__name__, "–", error)
         exit()
 
 # check_for_appt()

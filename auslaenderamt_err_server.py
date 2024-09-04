@@ -39,57 +39,57 @@ def check_for_appt():
         # Start page, direct link of https://termine.staedteregion-aachen.de/auslaenderamt/ + Aufenthaltsangelegenheiten (first option)
         browser.get("https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1")
         # print("Page opened")
-        time.sleep(3)
+        browser.implicitly_wait(3)
         ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
         # print("Scrolled down")
-        time.sleep(2)
+        browser.implicitly_wait(2)
 
         # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
         accordion = browser.find_element(By.ID, "header_concerns_accordion-456").click()
         # print("Clicked accordion")
-        time.sleep(2)
+        browser.implicitly_wait(2)
         ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
         # print("Scrolled down")
-        time.sleep(2)
+        browser.implicitly_wait(2)
 
         if team == 1: # Team 1
             print("Team 1")
             button_plus = browser.find_element(By.ID, "button-plus-293").click()
             # print("Clicked plus button")
-            time.sleep(1)
+            browser.implicitly_wait(1)
             button_plus = browser.find_element(By.ID, "button-plus-293").click()
             # print("Clicked plus button twice")
-            time.sleep(1)
+            browser.implicitly_wait(1)
             
         elif team == 2: # Team 2
             print("Team 2")
             button_plus = browser.find_element(By.ID, "button-plus-296").click()
             # print("Clicked plus button")
-            time.sleep(1)
+            browser.implicitly_wait(1)
             button_plus = browser.find_element(By.ID, "button-plus-296").click()
             # print("Clicked plus button twice")
-            time.sleep(1)
+            browser.implicitly_wait(1)
 
         elif team == 3: # Team 3
             print("Team 3")
             button_plus = browser.find_element(By.ID, "button-plus-297").click()
             # print("Clicked plus button")
-            time.sleep(1)
+            browser.implicitly_wait(1)
             button_plus = browser.find_element(By.ID, "button-plus-297").click()
             # print("Clicked plus button twice")
-            time.sleep(1)
+            browser.implicitly_wait(1)
         
         # Move to the next page
         button_next = browser.find_element(By.ID, "WeiterButton")
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # print("Scrolled down")
-        time.sleep(2)
+        browser.implicitly_wait(2)
         button_next.click()
         # print("Clicked next button")
-        time.sleep(2)
+        browser.implicitly_wait(2)
         button_ok_overlay = browser.find_element(By.ID, "OKButton").click()
         # print("Clicked OK button")
-        time.sleep(3)
+        browser.implicitly_wait(3)
 
         # # Save HTML before selecting the office to see if "Kein freier Termin" is already there
         # source_before_office = browser.page_source
@@ -106,7 +106,7 @@ def check_for_appt():
         # Select the office
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # print("Scrolled down")
-        time.sleep(2)
+        browser.implicitly_wait(2)
         office_buttons = browser.find_elements(By.NAME, "select_location")
         # Find the right button to press
         for button in office_buttons:
@@ -119,7 +119,7 @@ def check_for_appt():
             if button.aria_role == "button":
                 button.click()
                 # print("Clicked office button")
-                time.sleep(3)
+                browser.implicitly_wait(3)
 
         # # Save HTML after selecting the office to compare with before
         # source_after_office = browser.page_source

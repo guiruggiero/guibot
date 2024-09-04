@@ -1,7 +1,7 @@
 import time
 import schedule # https://schedule.readthedocs.io/en/stable/installation.html
 
-from selenium import webdriver
+from selenium import webdriver # https://www.selenium.dev/documentation/webdriver/getting_started/install_library/
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
@@ -30,7 +30,7 @@ def check_for_appt():
         options.add_argument("--disable-default-apps")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        browser = webdriver.Chrome(options=options)
+        browser = webdriver.Chrome(options=options) # https://googlechromelabs.github.io/chrome-for-testing/
 
         # Start page, direct link of https://termine.staedteregion-aachen.de/auslaenderamt/ + Aufenthaltsangelegenheiten (first option)
         browser.get("https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1")

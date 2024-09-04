@@ -1,7 +1,7 @@
 import time
 import schedule # https://schedule.readthedocs.io/en/stable/installation.html
 
-from selenium import webdriver
+from selenium import webdriver # https://www.selenium.dev/documentation/webdriver/getting_started/install_library/
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
@@ -17,6 +17,7 @@ def check_for_appt():
     try:
         check_start_hour =  int(time.strftime("%H", time.localtime()))
         check_start_hour_int = int(check_start_hour) + 2
+        if check_start_hour_int >= 24: check_start_hour_int = check_start_hour_int - 24
         check_start_hour = str(check_start_hour_int)
         check_start_minute = time.strftime("%M", time.localtime())
         print("Starting check - " + check_start_hour + ":" + check_start_minute)
@@ -33,12 +34,15 @@ def check_for_appt():
         options.add_argument("--disable-default-apps")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        browser = webdriver.Chrome(options=options)
+        browser = webdriver.Chrome(options=options) # https://googlechromelabs.github.io/chrome-for-testing/
 
         # Start page, direct link of https://termine.staedteregion-aachen.de/auslaenderamt/ + Aufenthaltsangelegenheiten (first option)
         browser.get("https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1")
         # print("Page opened")
         time.sleep(3)
+        ActionChains(browser).scroll_by_amount(0, 300).perform() # Scrolls to put button into view
+        # print("Scrolled down")
+        time.sleep(2)
 
         # Click "+" in the right category (Erteilung/Verlängerung Aufenthalt - Nachname: A - Z (Team 3))
         accordion = browser.find_element(By.ID, "header_concerns_accordion-456").click()

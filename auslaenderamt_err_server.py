@@ -13,7 +13,7 @@ import aachen_appts
 
 import random
 
-from twilio.rest import Client
+from twilio.rest import Client # https://www.twilio.com/docs/voice/quickstart/python
 
 def check_for_appt():
     try:
@@ -181,7 +181,10 @@ def check_for_appt():
             account_sid = aachen_appts.TWILIO_ACCOUNT_SID
             auth_token = aachen_appts.TWILIO_AUTH_TOKEN
             client = Client(account_sid, auth_token)
-            call = client.calls.create(to=aachen_appts.PHONE_GUI, from_=aachen_appts.TWILIO_PHONE_NUMBER)
+            call = client.calls.create(
+                url="http://demo.twilio.com/docs/voice.xml",
+                to=aachen_appts.PHONE_GUI,
+                from_=aachen_appts.TWILIO_PHONE_NUMBER)
             print("Call placed: " + call.sid + "\n")
 
         # Close the browser

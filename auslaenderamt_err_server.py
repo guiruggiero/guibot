@@ -9,17 +9,20 @@ from email.message import EmailMessage
 import smtplib
 import sys
 sys.path.insert(1, "../secrets")
-import gmail
+import aachen_appts
 
 import random
 
+from twilio.rest import Client
+
 def check_for_appt():
     try:
-        check_start_hour =  int(time.strftime("%H", time.localtime()))
-        check_start_hour_int = int(check_start_hour) + 2
-        if check_start_hour_int >= 24: check_start_hour_int = check_start_hour_int - 24
-        check_start_hour = str(check_start_hour_int)
-        check_start_minute = time.strftime("%M", time.localtime())
+        time_now = time.localtime()
+        # print(time_now)
+        check_start_hour = int(time.strftime("%H", time_now)) + 2
+        if check_start_hour >= 24: check_start_hour = check_start_hour - 24
+        check_start_hour = str(check_start_hour)
+        check_start_minute = time.strftime("%M", time_now)
         print("Starting check - " + check_start_hour + ":" + check_start_minute)
 
         # Decide which team to check
@@ -56,28 +59,28 @@ def check_for_appt():
             print("Team 1")
             button_plus = browser.find_element(By.ID, "button-plus-293").click()
             # print("Clicked plus button")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
             button_plus = browser.find_element(By.ID, "button-plus-293").click()
             # print("Clicked plus button twice")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
             
         elif team == 2: # Team 2
             print("Team 2")
             button_plus = browser.find_element(By.ID, "button-plus-296").click()
             # print("Clicked plus button")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
             button_plus = browser.find_element(By.ID, "button-plus-296").click()
             # print("Clicked plus button twice")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
 
         elif team == 3: # Team 3
             print("Team 3")
             button_plus = browser.find_element(By.ID, "button-plus-297").click()
             # print("Clicked plus button")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
             button_plus = browser.find_element(By.ID, "button-plus-297").click()
             # print("Clicked plus button twice")
-            browser.implicitly_wait(1)
+            browser.implicitly_wait(2)
         
         # Move to the next page
         button_next = browser.find_element(By.ID, "WeiterButton")
@@ -86,7 +89,7 @@ def check_for_appt():
         browser.implicitly_wait(2)
         button_next.click()
         # print("Clicked next button")
-        browser.implicitly_wait(2)
+        time.sleep(2)
         button_ok_overlay = browser.find_element(By.ID, "OKButton").click()
         # print("Clicked OK button")
         browser.implicitly_wait(3)
@@ -119,7 +122,6 @@ def check_for_appt():
             if button.aria_role == "button":
                 button.click()
                 # print("Clicked office button")
-                browser.implicitly_wait(3)
 
         # # Save HTML after selecting the office to compare with before
         # source_after_office = browser.page_source
@@ -129,35 +131,58 @@ def check_for_appt():
         # print("Saved HTML after office selection\n")
 
         # Check if "Kein freier Termin" is in the page
+        time.sleep(2)
         source = browser.page_source
-        search = source.find("Kein freier Termin")
+        search = source.find("Kein freier Termin") # TODO - change to what to look for in the screenshot (and not what not to lok for)
         # print(search)
         if search != -1: # Found string somewhere, no appointments available
             print("No appointments available :-(\n")
 
+            # # Take screenshot
+            # check_start_second = time.strftime("%S", time_now)
+            # browser.execute_script("document.body.style.zoom='70%'")
+            # browser.save_screenshot("screenshots/" + check_start_hour + check_start_minute + check_start_second + ".png")
+            # print("Screenshot saved")
+
         else: # Appointment(s) available
             print("Appointment(s) available!")
 
+            # Take screenshot
+            check_start_second = time.strftime("%S", time_now)
+            image_path = "screenshots/" + check_start_hour + check_start_minute + check_start_second + ".png"
+            browser.execute_script("document.body.style.zoom='70%'")
+            browser.save_screenshot(image_path)
+            print("Screenshot saved")
+
             # Create mail
             email = EmailMessage()
-            email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-            email["To"] = [gmail.GUI, gmail.GEORGIA]
-            email["Subject"] = "Urgent - EU Blue Card appointment(s) available - "
-            email.set_content("It looks like there are appointments available!<br><br>"
+            email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+            email["To"] = [aachen_appts.EMAIL_GUI, aachen_appts.EMAIL_GEORGIA]
+            email["Subject"] = "Urgent - EU Blue Card appointment"
+            email.set_content("Appointments available! Double check the attached screenshot.<br><br>"
                 "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1, "
                 "select Aufenthalt (2nd category), Team " + str(team) + ", and 2 appointments (plus button).", subtype="html")
+            with open(image_path, "rb") as image_file:
+                email.add_attachment(image_file.read(), maintype="image", subtype="png", filename="screenshot.png")
 
             # Start the connection
-            smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             smtpserver.ehlo()
-            smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+            smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
 
             # Send email
             smtpserver.send_message(email)
 
             # Close the connection
             smtpserver.quit()
-            print("Email sent\n")
+            print("Email sent")
+
+            # Call with Twilio
+            account_sid = aachen_appts.TWILIO_ACCOUNT_SID
+            auth_token = aachen_appts.TWILIO_AUTH_TOKEN
+            client = Client(account_sid, auth_token)
+            call = client.calls.create(to=aachen_appts.PHONE_GUI, from_=aachen_appts.TWILIO_PHONE_NUMBER)
+            print("Call placed: " + call.sid + "\n")
 
         # Close the browser
         browser.close()
@@ -171,15 +196,15 @@ def check_for_appt():
     except:
         # Create email
         email = EmailMessage()
-        email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-        email["To"] = [gmail.GUI]
+        email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+        email["To"] = [aachen_appts.EMAIL_GUI]
         email["Subject"] = "Script error"
         email.set_content("Check up on the instance, the script is having problems.", subtype="html")
 
         # Start the connection
-        smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         smtpserver.ehlo()
-        smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+        smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
 
         # Send email
         smtpserver.send_message(email)

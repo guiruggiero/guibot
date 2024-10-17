@@ -33,10 +33,10 @@ def check_for_appt():
 
         # Click "+" in the right category
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
-        accordion = browser.find_element(By.ID, "header_concerns_accordion-7252").click()
+        accordion = browser.find_element(By.ID, "header_concerns_accordion-7252").click() # Umschreibung ausländische Fahrerlaubnis oder Dienstfahrerlaubnis
         # print("Clicked accordion")
         time.sleep(2)
-        button_plus = browser.find_element(By.ID, "button-plus-823").click()
+        button_plus = browser.find_element(By.ID, "button-plus-823").click() # Umschreibung einer ausländischen Fahrerlaubnis
         # print("Clicked plus button")
         time.sleep(1)
 

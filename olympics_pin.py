@@ -113,8 +113,8 @@ def check_for_stock():
 print("Program started\n")
 check_for_stock()
 
-schedule.every(5).minutes.do(check_for_stock)
-# schedule.every(10).seconds.do(check_for_stock)
+# schedule.every(5).minutes.do(check_for_stock)
+schedule.every(10).seconds.do(check_for_stock)
 while True:
     schedule.run_pending()
     time.sleep(1)

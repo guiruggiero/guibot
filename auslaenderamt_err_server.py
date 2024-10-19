@@ -133,7 +133,7 @@ def check_for_appt():
         # Check if "Kein freier Termin" is in the page
         time.sleep(2)
         source = browser.page_source
-        search = source.find("Kein freier Termin") # TODO - change to what to look for in the screenshot (and not what not to lok for)
+        search = source.find("Kein freier Termin")
         # print(search)
         if search != -1: # Found string somewhere, no appointments available
             print("No appointments available :-(\n")

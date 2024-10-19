@@ -1,7 +1,7 @@
 import time
 import schedule # https://schedule.readthedocs.io/en/stable/installation.html
 
-from selenium import webdriver
+from selenium import webdriver # https://www.selenium.dev/documentation/webdriver/getting_started/install_library/
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
@@ -9,12 +9,12 @@ from email.message import EmailMessage
 import smtplib
 import sys
 sys.path.insert(1, "../secrets")
-import gmail
+import aachen_appts
 
 def check_for_appt():
     try:
         check_start_time = time.strftime("%H:%M", time.localtime())
-        print("Starting Fuhrerscheinstelle check - " + check_start_time)
+        print("Starting check - " + check_start_time)
 
         # Initialize Selenium browser
         options = webdriver.ChromeOptions() # https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
@@ -24,21 +24,21 @@ def check_for_appt():
         options.add_argument("--disable-default-apps")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        browser = webdriver.Chrome(options=options)
+        browser = webdriver.Chrome(options=options) # https://googlechromelabs.github.io/chrome-for-testing/
 
         # Start page
         browser.get("https://termine.staedteregion-aachen.de/select2?md=2")
         # print("Page opened")
-        time.sleep(3)
+        browser.implicitly_wait(3)
 
-        # Click "+" in the right category
+        # Click "+" in the right category (Umschreibung ausländische Fahrerlaubnis oder Dienstfahrerlaubnis)
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
-        accordion = browser.find_element(By.ID, "header_concerns_accordion-7252").click() # Umschreibung ausländische Fahrerlaubnis oder Dienstfahrerlaubnis
+        accordion = browser.find_element(By.ID, "header_concerns_accordion-7254").click()
         # print("Clicked accordion")
-        time.sleep(2)
-        button_plus = browser.find_element(By.ID, "button-plus-823").click() # Umschreibung einer ausländischen Fahrerlaubnis
+        browser.implicitly_wait(2)
+        button_plus = browser.find_element(By.ID, "button-plus-818").click() # Umschreibung einer ausländischen Fahrerlaubnis
         # print("Clicked plus button")
-        time.sleep(1)
+        browser.implicitly_wait(2)
 
         # Exception tests
         # raise KeyboardInterrupt
@@ -48,13 +48,10 @@ def check_for_appt():
         button_next = browser.find_element(By.ID, "WeiterButton")
         ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
         # print("Scrolled down")
-        time.sleep(2)
+        browser.implicitly_wait(2)
         button_next.click()
         # print("Clicked next button")
-        time.sleep(2)
-        button_ok_overlay = browser.find_element(By.ID, "OKButton").click()
-        # print("Clicked OK button")
-        time.sleep(3)
+        browser.implicitly_wait(3)
 
         # # Save HTML before selecting the office to see if "Kein freier Termin" is already there
         # source_before_office = browser.page_source
@@ -83,7 +80,6 @@ def check_for_appt():
             if button.aria_role == "button":
                 button.click()
                 # print("Clicked office button")
-                time.sleep(3)
 
         # # Save HTML after selecting the office to compare with before
         # source_after_office = browser.page_source
@@ -93,6 +89,7 @@ def check_for_appt():
         # print("Saved HTML after office selection\n")
 
         # Check if "Kein freier Termin" is in the page
+        time.sleep(2)
         source = browser.page_source
         search = source.find("Kein freier Termin")
         # print(search)
@@ -100,59 +97,38 @@ def check_for_appt():
             print("No appointments available :-(\n")
 
         else: # Appointment(s) available
-            # Filter for interesting dates # TODO starts
-            # accordion = browser.find_element(By.ID, "ui-id-1").click()
-            # ActionChains(browser).scroll_by_amount(0, 1000).perform() # Scrolls all the way down
-            # to_date = browser.find_element(By.ID, "filter_date_to") # setAttribute("value", "18.06.2024")
-            # print(to_date)
+            print("Appointment(s) available!")
 
-            # # print("To date changed")
-            # filter_buttons = browser.find_elements(By.NAME, "select_location")
-            # # Find the right button to press
-            # for button in filter_buttons:
-            #     print(button.accessible_name)
-            #     print(button.aria_role)
-            #     print(button.parent)
-            #     print(button.tag_name)
-            #     print(button.id)
-            #     print("\n")
+            # # Take screenshot
+            # # check_start_second = time.strftime("%S", time.localtime())
+            # time_now = time.strftime("%H%M%S", time.localtime())
+            # image_path = "screenshots/" + time_now + ".png"
+            # # browser.execute_script("document.body.style.zoom='70%'")
+            # browser.save_screenshot(image_path)
+            # print("Screenshot saved")
 
-            #     # if button.aria_role == "button":
-            #     #     button.click()
-            #     #     print("Clicked office button")
-            #     #     time.sleep(3)
+            # Create mail
+            email = EmailMessage()
+            email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+            email["To"] = [aachen_appts.EMAIL_GEORGIA]
+            email["Subject"] = "Urgent - Driver's license appointment(s) available"
+            email.set_content("Appointments available!<br><br>Go to https://termine.staedteregion-aachen.de/select2?md=2, "
+                "select 'Umschreibung ausländische Fahrerlaubnis oder Dienstfahrerlaubnis', Umschreibung einer ausländischen "
+                "Fahrerlaubnis (first option), and 1 appointment (plus button).", subtype="html")
+            # with open(image_path, "rb") as image_file:
+            #     email.add_attachment(image_file.read(), maintype="image", subtype="png", filename="screenshot.png")
 
-            # TODO ends
+            # Start the connection
+            smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            smtpserver.ehlo()
+            smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
 
-            # Check if "Kein freier Termin" is in the page
-            source = browser.page_source
-            search = source.find("Kein freier Termin")
-            # print(search)
-            if search != -1: # Found string somewhere, no appointments available
-                print("No appointments available :-(\n")
+            # Send email
+            smtpserver.send_message(email)
 
-            else: # Appointment(s) available
-                print("Appointment(s) available!")
-
-                # Create mail
-                email = EmailMessage()
-                email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-                email["To"] = [gmail.GUI]
-                email["Subject"] = "Urgent - Driver's license appointment(s) available - "
-                email.set_content("It looks like there are appointments available!<br><br>"
-                    "Go to https://termine.staedteregion-aachen.de/select2?md=2 and grab one ASAP.", subtype="html")
-
-                # Start the connection
-                smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                smtpserver.ehlo()
-                smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
-
-                # Send email
-                smtpserver.send_message(email)
-
-                # Close the connection
-                smtpserver.quit()
-                print("Email sent\n")
+            # Close the connection
+            smtpserver.quit()
+            print("Email sent")
 
         # Close the browser
         browser.close()
@@ -163,18 +139,18 @@ def check_for_appt():
         exit()
 
     # All other errors
-    except:
+    except:     
         # Create email
         email = EmailMessage()
-        email["From"] = "Gui's bot <" + gmail.SENDER + ">"
-        email["To"] = [gmail.GUI]
+        email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+        email["To"] = [aachen_appts.EMAIL_GUI]
         email["Subject"] = "Script error"
         email.set_content("The script is having problems, go check it.", subtype="html")
 
         # Start the connection
-        smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         smtpserver.ehlo()
-        smtpserver.login(gmail.SENDER, gmail.GMAIL_APP_PASSWORD)
+        smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
 
         # Send email
         smtpserver.send_message(email)
@@ -186,10 +162,12 @@ def check_for_appt():
 
 # check_for_appt()
 
-# # Timed run
-# print("Program started\n")
-# check_for_appt()
-# schedule.every(5).minutes.do(check_for_appt)
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+# Timed run
+print("Program started\n")
+check_for_appt()
+
+# schedule.every(2).minutes.do(check_for_appt)
+schedule.every(30).seconds.do(check_for_appt)
+while True:
+    schedule.run_pending()
+    time.sleep(1)

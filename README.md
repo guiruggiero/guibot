@@ -1,6 +1,6 @@
 # 🤖 Aachen appointment checkers
 
-Automated scripts to check for available appointments at the Aachen Foreigners Office (Ausländeramt) and Driver's License Office (Führerscheinstelle). The scripts will notify you via email (and sometimes via phone call) when appointments become available.
+Automated scripts to check for available appointments at the Aachen, Germany Foreigners Office (Ausländeramt) and Driver's License Office (Führerscheinstelle). The scripts will notify you via email (and sometimes via phone call) when appointments become available.
 
 > **Note**: Code works as of October 2024. Updates may be needed if the Aachen websites change their structure, element IDs, or names.
 

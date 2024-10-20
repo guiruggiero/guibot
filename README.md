@@ -6,21 +6,6 @@ Automated scripts to check for available appointments at the Aachen, Germany For
 
 Built by [Gui Ruggiero](https://guiruggiero.com/).
 
-### 📖 Table of Contents
-- [✨ Features](#-features)
-- [🛠️ Prerequisites](#️-prerequisites)
-- [📦 Required Python packages](#-required-python-packages)
-- [🚀 Setup](#-setup)
-- [🧪 Testing](#-testing)
-- [📝 Usage](#-usage)
-  - [Ausländeramt script](#ausländeramt-script)
-  - [Führerscheinstelle script](#führerscheinstelle-script)
-  - [Combined script](#combined-script)
-- [⚙️ Customization](#️-customization)
-- [🖥️ Deployment](#️-deployment)
-- [⚠️ Disclaimer](#️-disclaimer)
-- [📄 License](#-license)
-
 ## ✨ Features
 
 - Automated checking at configurable intervals

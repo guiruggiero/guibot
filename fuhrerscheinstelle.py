@@ -8,11 +8,14 @@ from selenium.webdriver import ActionChains
 from email.message import EmailMessage
 import smtplib
 import sys
+
 sys.path.insert(1, "../secrets")
 import aachen_appts
 
 def check_for_appt():
     try:
+
+        # Get current time
         check_start_time = time.strftime("%H:%M", time.localtime())
         print("Starting check - " + check_start_time)
 
@@ -109,7 +112,7 @@ def check_for_appt():
 
             # Create mail
             email = EmailMessage()
-            email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+            email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
             email["To"] = [aachen_appts.EMAIL_GEORGIA]
             email["Subject"] = "Urgent - Driver's license appointment(s) available"
             email.set_content("Appointments available!<br><br>Go to https://termine.staedteregion-aachen.de/select2?md=2, "
@@ -142,7 +145,7 @@ def check_for_appt():
     except:     
         # Create email
         email = EmailMessage()
-        email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+        email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
         email["To"] = [aachen_appts.EMAIL_GUI]
         email["Subject"] = "Script error"
         email.set_content("The script is having problems, go check it.", subtype="html")

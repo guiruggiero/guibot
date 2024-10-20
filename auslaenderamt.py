@@ -8,6 +8,7 @@ from selenium.webdriver import ActionChains
 from email.message import EmailMessage
 import smtplib
 import sys
+
 sys.path.insert(1, "../secrets")
 import aachen_appts
 
@@ -17,9 +18,11 @@ from twilio.rest import Client # https://www.twilio.com/docs/voice/quickstart/py
 
 def check_for_appt():
     try:
+
+        # Get current time
         time_now = time.localtime()
         # print(time_now)
-        check_start_hour = int(time.strftime("%H", time_now)) + 2
+        check_start_hour = int(time.strftime("%H", time_now)) + 2 # Correct server that is 2 hours behind
         if check_start_hour >= 24: check_start_hour = check_start_hour - 24
         check_start_hour = str(check_start_hour)
         check_start_minute = time.strftime("%M", time_now)
@@ -55,6 +58,7 @@ def check_for_appt():
         # print("Scrolled down")
         browser.implicitly_wait(2)
 
+        # Click "+" twice because it's an appointment for my wife and I
         if team == 1: # Team 1
             print("Team 1")
             button_plus = browser.find_element(By.ID, "button-plus-293").click()
@@ -156,7 +160,7 @@ def check_for_appt():
 
             # Create mail
             email = EmailMessage()
-            email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+            email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
             email["To"] = [aachen_appts.EMAIL_GUI, aachen_appts.EMAIL_GEORGIA]
             email["Subject"] = "Urgent - EU Blue Card appointment"
             email.set_content("Appointments available! Double check the attached screenshot.<br><br>"
@@ -199,7 +203,7 @@ def check_for_appt():
     except:
         # Create email
         email = EmailMessage()
-        email["From"] = "Gui's bot <" + aachen_appts.GMAIL_SENDER + ">"
+        email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
         email["To"] = [aachen_appts.EMAIL_GUI]
         email["Subject"] = "Script error"
         email.set_content("Check up on the instance, the script is having problems.", subtype="html")

@@ -1,6 +1,6 @@
 # 🤖 GuiBot scripts
 
-This repository contains automated scripts to crawl websites, check for appointments or items in stock, and provide notifications.
+This repository contains automated scripts to crawl websites for multiple purposes and provide notifications.
 
 1. **[Olympics Store checker](./olympics-store/)**
    - Checks the official Olympics online store for availability of items
@@ -12,7 +12,7 @@ This repository contains automated scripts to crawl websites, check for appointm
 
 Please refer to the respective folder's README files for more detailed information on the features, setup, and usage of each set of scripts.
 
-Built by [Gui Ruggiero](https://guiruggiero.com/).
+Built by [Gui Ruggiero](https://guiruggiero.com/?utm_source=github&utm_medium=guibot).
 
 ---
 

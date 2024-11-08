@@ -2,7 +2,7 @@
 
 Automated script to check for availability of items on the official Olympics online store and send email notifications when it's in stock.
 
-Built by [Gui Ruggiero](https://guiruggiero.com/).
+Built by [Gui Ruggiero](https://guiruggiero.com/?utm_source=github&utm_medium=guibot).
 
 > **Note**: Code works as of November 2024. Updates may be needed if the Olympics Store website changes how out of stock items are displayed.
 

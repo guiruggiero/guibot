@@ -2,11 +2,11 @@
 
 This repository contains automated scripts to crawl websites, check for appointments or items in stock, and provide notifications.
 
-1. **[Olympics Store checker](./olympics-store-checker/)**
+1. **[Olympics Store checker](./olympics-store/)**
    - Checks the official Olympics online store for availability of items
    - Sends email notifications when items are back in stock
 
-2. **[Aachen appointment checkers](./aachen-appointment-checkers/)**
+2. **[Aachen appointment checkers](./aachen-appts/)**
    - Checks for available appointments at the Aachen, Germany Foreigners Office and Driver's License Office
    - Sends email and/or phone call notifications when appointments are found
 

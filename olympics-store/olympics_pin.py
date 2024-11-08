@@ -51,15 +51,14 @@ def check_for_stock():
             print("Still out of stock :-(\n")
 
         else: # In stock
-            print("Pin in stock!")
+            print("Item in stock!")
 
             # Create mail
             email = EmailMessage()
             email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
             email["To"] = [guibot.EMAIL1]
-            email["Subject"] = "Urgent - 2024 Olympics pin back in stock"
-            email.set_content("The pin is in stock!<br><br>Go to https://shop.olympics.com/en/paris-2024/"
-                "paris-2024-olympics-pin-badge/t-4588774218+p-125766430724+z-8-4134459471 and get one.", subtype="html")
+            email["Subject"] = "Urgent - 2024 Olympics item back in stock"
+            email.set_content("The item is in stock!<br><br>Go to " + url + " and get one.", subtype="html")
 
             # Start the connection
             smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)

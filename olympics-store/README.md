@@ -1,13 +1,15 @@
-# 🤖 Olympics Pin Checker
+# 🥇 Olympics Store checker
 
-Automated script to check for availability of the 2024 Olympics pin on the official Olympics online store and send email notifications when it's in stock.
+Automated script to check for availability of items on the official Olympics online store and send email notifications when it's in stock.
 
 Built by [Gui Ruggiero](https://guiruggiero.com/).
+
+> **Note**: Code works as of November 2024. Updates may be needed if the Olympics Store website changes how out of stock items are displayed.
 
 ## ✨ Features
 
 - Automated checking at configurable intervals
-- Email notifications when the pin is back in stock
+- Email notifications when the item is back in stock
 - Error monitoring and notifications
 
 ## 🛠️ Prerequisites
@@ -54,18 +56,12 @@ You can adjust the checking interval by modifying the following line in the scri
 schedule.every(5).minutes.do(check_for_stock)
 ```
 
-Keep checking intervals reasonable to avoid overloading the website.
+You can also check other items by changing the URL of the product in the Olympics Store:
+
+```python
+url = "https://shop.olympics.com/en/paris-2024/paris-2024-olympics-pin-badge/t-4588774218+p-125766430724+z-8-4134459471"
+```
 
 ## 🖥️ Deployment
 
 While this script can be run locally, it was designed to run on a remote instance. The recommended setup uses an `e2-micro` Compute Engine instance on Google Cloud Platform (GCP), which is free. There is no need for a GUI, as script does not manipulate the website directly - instead, it just fetches the page source and analyzes it.
-
----
-
-### ⚠️ Disclaimer
-
-This script is provided "as is" without any warranties. Use at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or other issues. Please use responsibly and ensure you comply with all relevant terms of service and regulations.
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. You are free to use, modify, and distribute this software for any purpose, provided you include the original copyright notice and the full license text in any copies or substantial portions of the software. Attribution is required.

@@ -1,10 +1,10 @@
-# 🤖 Aachen appointment checkers
+# 📅 Aachen appointment checkers
 
 Automated scripts to check for available appointments at the Aachen, Germany Foreigners Office (Ausländeramt) and Driver's License Office (Führerscheinstelle). The scripts will notify you via email (and sometimes via phone call) when appointments become available.
 
-> **Note**: Code works as of October 2024. Updates may be needed if the Aachen websites change their structure, element IDs, or names.
-
 Built by [Gui Ruggiero](https://guiruggiero.com/).
+
+> **Note**: Code works as of October 2024. Updates may be needed if the Aachen websites change their structure, element IDs, or names.
 
 ## ✨ Features
 
@@ -85,18 +85,7 @@ schedule.every(20).seconds.do(check_for_appt)  # Ausländeramt
 schedule.every(30).seconds.do(check_for_appt)  # Führerscheinstelle
 schedule.every(3).minutes.do(check_for_appts)  # Combined script
 ```
-Keep checking intervals reasonable to avoid overloading servers.
 
 ## 🖥️ Deployment
 
 While these scripts can be run locally, they were designed to run on a remote instance. The recommended setup uses an `e2-small` Compute Engine instance on Google Cloud Platform (GCP) with Chrome Remote Desktop for Linux. Follow the setup guide [here](https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine).
-
----
-
-### ⚠️ Disclaimer
-
-These scripts are provided "as is" without any warranties. Use at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or appointment scheduling issues. Please use responsibly and ensure you comply with all relevant terms of service and regulations.
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. You are free to use, modify, and distribute this software for any purpose, provided you include the original copyright notice and the full license text in any copies or substantial portions of the software. Attribution is required.

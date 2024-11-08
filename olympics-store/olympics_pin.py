@@ -10,8 +10,8 @@ from email.message import EmailMessage
 import smtplib
 import sys
 
-sys.path.insert(1, "../secrets")
-import aachen_appts
+sys.path.insert(1, "../../secrets")
+import guibot
 
 def check_for_stock():
     try:
@@ -55,8 +55,8 @@ def check_for_stock():
 
             # Create mail
             email = EmailMessage()
-            email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-            email["To"] = [aachen_appts.EMAIL_GUI]
+            email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+            email["To"] = [guibot.EMAIL1]
             email["Subject"] = "Urgent - 2024 Olympics pin back in stock"
             email.set_content("The pin is in stock!<br><br>Go to https://shop.olympics.com/en/paris-2024/"
                 "paris-2024-olympics-pin-badge/t-4588774218+p-125766430724+z-8-4134459471 and get one.", subtype="html")
@@ -64,7 +64,7 @@ def check_for_stock():
             # Start the connection
             smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             smtpserver.ehlo()
-            smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+            smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
             # Send email
             smtpserver.send_message(email)
@@ -87,15 +87,15 @@ def check_for_stock():
 
         # Create email
         email = EmailMessage()
-        email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-        email["To"] = [aachen_appts.EMAIL_GUI]
+        email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+        email["To"] = [guibot.EMAIL1]
         email["Subject"] = "Script error"
         email.set_content("Check up on the instance, the script is having problems.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         smtpserver.ehlo()
-        smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+        smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
         # Send email
         smtpserver.send_message(email)
@@ -113,8 +113,7 @@ def check_for_stock():
 print("Program started\n")
 check_for_stock()
 
-# schedule.every(5).minutes.do(check_for_stock)
-schedule.every(10).seconds.do(check_for_stock)
+schedule.every(5).minutes.do(check_for_stock)
 while True:
     schedule.run_pending()
     time.sleep(1)

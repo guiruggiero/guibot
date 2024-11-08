@@ -1,7 +1,7 @@
 from email.message import EmailMessage
 
 import sys
-sys.path.insert(1, "../secrets")
+sys.path.insert(1, "../../secrets")
 import gmail
 
 print(gmail.SENDER)

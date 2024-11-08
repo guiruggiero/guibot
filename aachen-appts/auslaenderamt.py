@@ -9,8 +9,8 @@ from email.message import EmailMessage
 import smtplib
 import sys
 
-sys.path.insert(1, "../secrets")
-import aachen_appts
+sys.path.insert(1, "../../secrets")
+import guibot
 
 import random
 
@@ -160,8 +160,8 @@ def check_for_appt():
 
             # Create mail
             email = EmailMessage()
-            email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-            email["To"] = [aachen_appts.EMAIL_GUI, aachen_appts.EMAIL_GEORGIA]
+            email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+            email["To"] = [guibot.EMAIL1, guibot.EMAIL2]
             email["Subject"] = "Urgent - EU Blue Card appointment"
             email.set_content("Appointments available! Double check the attached screenshot.<br><br>"
                 "Go to https://termine.staedteregion-aachen.de/auslaenderamt/select2?md=1, "
@@ -172,7 +172,7 @@ def check_for_appt():
             # Start the connection
             smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             smtpserver.ehlo()
-            smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+            smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
             # Send email
             smtpserver.send_message(email)
@@ -182,13 +182,13 @@ def check_for_appt():
             print("Email sent")
 
             # Call with Twilio
-            account_sid = aachen_appts.TWILIO_ACCOUNT_SID
-            auth_token = aachen_appts.TWILIO_AUTH_TOKEN
+            account_sid = guibot.TWILIO_ACCOUNT_SID
+            auth_token = guibot.TWILIO_AUTH_TOKEN
             client = Client(account_sid, auth_token)
             call = client.calls.create(
                 url="http://demo.twilio.com/docs/voice.xml",
-                to=aachen_appts.PHONE_GUI,
-                from_=aachen_appts.TWILIO_PHONE_NUMBER)
+                to=guibot.PHONE,
+                from_=guibot.TWILIO_PHONE_NUMBER)
             print("Call placed: " + call.sid + "\n")
 
         # Close the browser
@@ -203,15 +203,15 @@ def check_for_appt():
     except:
         # Create email
         email = EmailMessage()
-        email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-        email["To"] = [aachen_appts.EMAIL_GUI]
+        email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+        email["To"] = [guibot.EMAIL1]
         email["Subject"] = "Script error"
         email.set_content("Check up on the instance, the script is having problems.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         smtpserver.ehlo()
-        smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+        smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
         # Send email
         smtpserver.send_message(email)

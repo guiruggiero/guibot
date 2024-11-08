@@ -7,7 +7,7 @@ from selenium.webdriver import ActionChains
 from email.message import EmailMessage
 import smtplib
 import sys
-sys.path.insert(1, "../secrets")
+sys.path.insert(1, "../../secrets")
 import gmail
 
 time_now = time.localtime()

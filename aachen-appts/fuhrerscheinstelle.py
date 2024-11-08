@@ -9,8 +9,8 @@ from email.message import EmailMessage
 import smtplib
 import sys
 
-sys.path.insert(1, "../secrets")
-import aachen_appts
+sys.path.insert(1, "../../secrets")
+import guibot
 
 def check_for_appt():
     try:
@@ -112,8 +112,8 @@ def check_for_appt():
 
             # Create mail
             email = EmailMessage()
-            email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-            email["To"] = [aachen_appts.EMAIL_GEORGIA]
+            email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+            email["To"] = [guibot.EMAIL2]
             email["Subject"] = "Urgent - Driver's license appointment(s) available"
             email.set_content("Appointments available!<br><br>Go to https://termine.staedteregion-aachen.de/select2?md=2, "
                 "select 'Umschreibung ausländische Fahrerlaubnis oder Dienstfahrerlaubnis', Umschreibung einer ausländischen "
@@ -124,7 +124,7 @@ def check_for_appt():
             # Start the connection
             smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             smtpserver.ehlo()
-            smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+            smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
             # Send email
             smtpserver.send_message(email)
@@ -145,15 +145,15 @@ def check_for_appt():
     except:     
         # Create email
         email = EmailMessage()
-        email["From"] = "GuiBot <" + aachen_appts.GMAIL_SENDER + ">"
-        email["To"] = [aachen_appts.EMAIL_GUI]
+        email["From"] = "GuiBot <" + guibot.GMAIL_SENDER + ">"
+        email["To"] = [guibot.EMAIL1]
         email["Subject"] = "Script error"
         email.set_content("The script is having problems, go check it.", subtype="html")
 
         # Start the connection
         smtpserver = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         smtpserver.ehlo()
-        smtpserver.login(aachen_appts.GMAIL_SENDER, aachen_appts.GMAIL_APP_PASSWORD)
+        smtpserver.login(guibot.GMAIL_SENDER, guibot.GMAIL_APP_PASSWORD)
 
         # Send email
         smtpserver.send_message(email)

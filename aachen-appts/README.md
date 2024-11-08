@@ -33,20 +33,20 @@ pip install selenium schedule twilio
 ## 🚀 Setup
 
 1. Create a `secrets` folder in the parent directory
-2. Create `aachen_appts.py` in the secrets folder with the following variables:
+2. Create `guibot.py` in the secrets folder with the following variables:
    - `GMAIL_SENDER`: Email address for sending notifications
    - `GMAIL_APP_PASSWORD`: [Google app password](https://myaccount.google.com/apppasswords) for authentication
-   - `EMAIL_GUI`: Primary email recipient for notifications
-   - `EMAIL_GEORGIA`: Secondary email recipient
+   - `EMAIL1`: Primary email recipient for notifications
+   - `EMAIL2`: Secondary email recipient
    - `TWILIO_ACCOUNT_SID`: Twilio account SID (for phone calls)
    - `TWILIO_AUTH_TOKEN`: Twilio auth token
    - `TWILIO_PHONE_NUMBER`: Twilio phone number
-   - `PHONE_GUI`: Phone number for notifications
+   - `PHONE`: Phone number for notifications
 3. Create a `screenshots` folder in the scripts directory
 
 ## 🧪 Testing
 
-The `tests` folder contains individual Python files for testing various components:
+The `tests` folder in the parent directory of this repository contains individual Python files for testing various components:
 - Selenium web automation
 - Email sending
 - Email attachments
@@ -56,7 +56,7 @@ The `tests` folder contains individual Python files for testing various componen
 
 ### Ausländeramt script
 ```bash
-python auslaenderamt_err_server.py
+python3 auslaenderamt_err_server.py
 ```
 - Checks random team (1, 2, or 3) for appointments
 - Default interval: 20 seconds
@@ -64,7 +64,7 @@ python auslaenderamt_err_server.py
 
 ### Führerscheinstelle script
 ```bash
-python fuhrerscheinstelle_err.py
+python3 fuhrerscheinstelle_err.py
 ```
 - Checks for foreign license conversion appointments
 - Default interval: 30 seconds
@@ -72,7 +72,7 @@ python fuhrerscheinstelle_err.py
 
 ### Combined script
 ```bash
-python combined_run.py
+python3 combined_run.py
 ```
 - Runs both scripts sequentially
 - Default interval: 3 minutes
@@ -89,9 +89,8 @@ Keep checking intervals reasonable to avoid overloading servers.
 
 ## 🖥️ Deployment
 
-While these scripts can be run locally, they were designed to run on a remote instance. The recommended setup uses an `e2-small` Compute Engine instance on Google Cloud Platform with Chrome Remote Desktop for Linux. Follow the setup guide [here](https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine).
+While these scripts can be run locally, they were designed to run on a remote instance. The recommended setup uses an `e2-small` Compute Engine instance on Google Cloud Platform (GCP) with Chrome Remote Desktop for Linux. Follow the setup guide [here](https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine).
 
----
 ---
 
 ### ⚠️ Disclaimer

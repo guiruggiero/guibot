@@ -1,0 +1,26 @@
+## File guibot.service content
+
+[Unit]
+Description=GuiBot
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/guilherme_ruggiero/<filename>
+Restart=always
+User=guilherme_ruggiero
+
+[Install]
+WantedBy=default.target
+
+--
+
+## Commands
+
+# sudo nano /lib/systemd/system/guibot.service
+
+# sudo chmod 644 /lib/systemd/system/guibot.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable guibot.service
+# sudo systemctl start guibot.service
+# sudo systemctl status guibot.service

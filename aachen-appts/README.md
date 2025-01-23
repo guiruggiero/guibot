@@ -6,7 +6,7 @@ Built by [Gui Ruggiero](https://guiruggiero.com/?utm_source=github&utm_medium=gu
 
 > **Note**: Code works as of October 2024. Updates may be needed if the Aachen websites change their structure, element IDs, or names.
 
-## ✨ Features
+### ✨ Features
 
 - Automated checking at configurable intervals
 - Email notifications when appointments are found
@@ -14,13 +14,13 @@ Built by [Gui Ruggiero](https://guiruggiero.com/?utm_source=github&utm_medium=gu
 - Screenshot capture of available appointments
 - Error monitoring and notifications
 
-## 🛠️ Prerequisites
+### 🛠️ Prerequisites
 
 - Python 3.x
 - Chrome browser
 - Chrome WebDriver
 
-## 📦 Required Python packages
+### 📦 Required Python packages
 
 ```bash
 pip install selenium schedule twilio
@@ -30,7 +30,7 @@ pip install selenium schedule twilio
 - [schedule](https://schedule.readthedocs.io/en/stable/installation.html) - task scheduling
 - [twilio](https://www.twilio.com/docs/voice/quickstart/python) - phone calls
 
-## 🚀 Setup
+### 🚀 Setup
 
 1. Create a `secrets` folder in the parent directory
 2. Create `guibot.py` in the secrets folder with the following variables:
@@ -44,7 +44,7 @@ pip install selenium schedule twilio
    - `PHONE`: Phone number for notifications
 3. Create a `screenshots` folder in the scripts directory
 
-## 🧪 Testing
+### 🧪 Testing
 
 The `tests` folder in the parent directory of this repository contains individual Python files for testing various components:
 - Selenium web automation
@@ -52,9 +52,9 @@ The `tests` folder in the parent directory of this repository contains individua
 - Email attachments
 - Twilio phone calls
 
-## 📝 Usage
+### 📝 Usage
 
-### Ausländeramt script
+#### Ausländeramt script
 ```bash
 python3 auslaenderamt_err_server.py
 ```
@@ -62,7 +62,7 @@ python3 auslaenderamt_err_server.py
 - Default interval: 20 seconds
 - Sends email and calls when appointments found
 
-### Führerscheinstelle script
+#### Führerscheinstelle script
 ```bash
 python3 fuhrerscheinstelle_err.py
 ```
@@ -70,14 +70,14 @@ python3 fuhrerscheinstelle_err.py
 - Default interval: 30 seconds
 - Email notifications only
 
-### Combined script
+#### Combined script
 ```bash
 python3 combined_run.py
 ```
 - Runs both scripts sequentially
 - Default interval: 3 minutes
 
-## ⚙️ Customization
+### ⚙️ Customization
 
 Adjust checking intervals by modifying:
 ```python
@@ -86,6 +86,6 @@ schedule.every(30).seconds.do(check_for_appt)  # Führerscheinstelle
 schedule.every(3).minutes.do(check_for_appts)  # Combined script
 ```
 
-## 🖥️ Deployment
+### 🖥️ Deployment
 
 While these scripts can be run locally, they were designed to run on a remote instance. The recommended setup uses an `e2-small` Compute Engine instance on Google Cloud Platform (GCP) with Chrome Remote Desktop for Linux. Follow the setup guide [here](https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine).

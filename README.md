@@ -20,8 +20,8 @@ Please refer to the respective folder's README files for more detailed informati
 
 ### ⚠️ Disclaimer
 
-The scripts in this repository are provided "as is" without any warranties. Use them at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or other issues. Please use the scripts responsibly and ensure you comply with all relevant terms of service and regulations.
+This software is provided "as is" without any warranties. Use at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or appointment scheduling issues. Please use it responsibly and ensure you comply with all relevant terms of service and regulations.
 
 ### 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. You are free to use, modify, and distribute this software for any purpose, provided you include the original copyright notice and the full license text in any copies or substantial portions of the software. Attribution is required.
+This project is licensed under the [MIT License](LICENSE). Attribution is required.

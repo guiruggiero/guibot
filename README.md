@@ -18,10 +18,10 @@ Please refer to the respective folder's README files for more detailed informati
 
 ---
 
-### ⚠️ Disclaimer
-
-This software is provided "as is" without any warranties. Use at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or appointment scheduling issues. Please use it responsibly and ensure you comply with all relevant terms of service and regulations.
-
 ### 📄 License
 
 This project is licensed under the [MIT License](LICENSE). Attribution is required.
+
+### ⚠️ Disclaimer
+
+This software is provided "as is" without any warranties. Use at your own risk. The author is not responsible for any consequences of using this software, including but not limited to potential website blocking or appointment scheduling issues. Please use it responsibly and ensure you comply with all relevant terms of service and regulations.

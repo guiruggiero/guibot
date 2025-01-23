@@ -1,4 +1,4 @@
-# 🤖 GuiBot scripts
+# 🤖 GuiBot crawlers
 
 This repository contains automated scripts to crawl websites for multiple purposes and provide notifications.
 

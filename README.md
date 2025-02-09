@@ -2,8 +2,6 @@
 
 This repository contains automated scripts to crawl websites for multiple purposes and provide notifications.
 
-Built by [Gui Ruggiero](https://guiruggiero.com/?utm_source=github&utm_medium=guibot).
-
 ### 📜 Scripts
 
 1. **[Olympics Store checker](./olympics-store/)**
